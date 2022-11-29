@@ -1,0 +1,52 @@
+##################################################################################################
+# MAIN
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: main
+  namespace: mcn-walkthrough
+  labels:
+    app: main
+    service: main
+spec:
+  type: ClusterIP
+  ports:
+    - targetPort: 80
+      port: 80  
+  selector:
+    app: main
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: main
+  namespace: mcn-walkthrough
+  labels:
+    app: main
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: main
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: main
+        version: v1
+    spec:
+      containers:
+      - env:
+        - name: service_name
+          value: main
+        image: registry.gitlab.com/arcadia-application/main-app/mainapp:latest
+        imagePullPolicy: IfNotPresent
+        imagePullSecrets:
+        - name: registry-secret
+        name: main
+        ports:
+        - containerPort: 80
+          protocol: TCP
+---

@@ -1,0 +1,51 @@
+##################################################################################################
+# iPerf k8s
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: iperf-tester
+  namespace: default
+  labels:
+    app: iperf-tester
+    service: iperf-tester
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    name: iperf-tester-80
+    nodePort: 3001
+  selector:
+    app: iperf-tester
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iperf-tester
+  namespace: default
+  labels:
+    app: iperf-tester
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: iperf-tester
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: iperf-tester
+        version: v1
+    spec:
+      containers:
+      - env:
+        - name: service_name
+          value: iperf-tester
+        image: clearlinux/iperf
+        imagePullPolicy: IfNotPresent
+        name: iperf-tester
+        ports:
+        - containerPort: 80
+          protocol: TCP
+---

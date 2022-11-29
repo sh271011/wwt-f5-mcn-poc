@@ -1,0 +1,20 @@
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: <cert-authority-data>
+    server: <app-stack-login-url>
+  name: mcn-walkthrough-vk8s
+contexts:
+- context:
+    cluster: mcn-walkthrough-vk8s
+    namespace: mcn-walkthrough
+    user: <username>
+  name: mcn-walkthrough-vk8s
+current-context: mcn-walkthrough-vk8s
+kind: Config
+preferences: {}
+users:
+- user:
+    client-certificate-data: <client-certificate-data>
+    client-key-data: <client-key-data>
+  name: <username>

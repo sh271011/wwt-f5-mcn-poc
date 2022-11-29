@@ -1,0 +1,58 @@
+##################################################################################################
+# iPerf vk8s
+##################################################################################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iperf-tester
+  namespace: mcn-walkthrough
+  labels:
+    app: iperf-tester
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: iperf-tester
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: iperf-tester
+    spec:
+      containers:
+        - name: iperf
+          image: clearlinux/iperf
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          env:
+            - name: NODENAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: spec.nodeName
+            - name: HOST_IP
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.hostIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: iperf-tester
+  namespace: mcn-walkthrough
+  labels:
+    app: iperf-tester
+    service: iperf-tester
+spec:
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  selector:
+    app: iperf-tester
+  sessionAffinity: None
+---

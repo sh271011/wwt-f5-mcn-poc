@@ -1,0 +1,20 @@
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: <cert-authority-data>
+    server: https://<your-tenant-url>/api/vk8s/namespaces/<your-namespace>/<name-of-the-object>
+  name: <cluster-name>
+contexts:
+- context:
+    cluster: <cluster-name>
+    namespace: <namespace>
+    user: <user-name>
+  name: <context-name>
+current-context: <current-context>
+kind: Config
+preferences: {}
+users:
+- user:
+    client-certificate-data: <client-cert-data>
+    client-key-data: <client-key-data>
+  name: <user-name>

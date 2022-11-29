@@ -1,0 +1,26 @@
+apiVersion: v1
+data:
+  mapRoles: |
+    - rolearn: arn:aws:iam::661556513509:role/eksctl-aws-eks-cluster-1-nodegrou-NodeInstanceRole-KSVSFUXWT7C2
+      username: system:node:{{EC2PrivateDNSName}}
+      groups:
+        - system:bootstrappers
+        - system:nodes
+        - eks-console-dashboard-full-access-group  
+    - rolearn: arn:aws:iam::661556513509:role/AWSReservedSSO_AdministratorAccess_fb8ce9637ede3a97
+      username: ssoadmin:{{SessionName}}
+      groups:
+        - system:masters  
+  mapUsers: |
+    - userarn: arn:aws:iam::661556513509:user/eks-global-admin
+      username: eks-global-admin
+      groups:
+        - system:masters
+    - userarn: arn:aws:iam::661556513509:user/Volterra-User
+      username: Volterra-user
+      groups:
+        - system:masters
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
