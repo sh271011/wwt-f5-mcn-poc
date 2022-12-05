@@ -71,6 +71,10 @@ Additional requirements for AppStack deployment has also been commented in the a
 
 Once the deployment is complete, you will need to create a new HTTP Load Balancer within the Volterra console. This can be automated using the Volterra provider and the code supplied within the `terraform\volterra` folder.
 
+#### Delegating the domain to F5XC
+
+Before we create the proxy loadbalancer, we will need to delegate a subdomain to F5XC platform. You can follow the steps mentioned in [Step 3: Create the Front end HTTP Load Balancer](../clouds/proxy_lb.md#step-3\:-create-the-front-end-http-load-balancer) to perform this task.
+
 ### File Locations
 
 The following files are expected in the following locations:
